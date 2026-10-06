@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jealescous — Pancakes Tutorial</title>
+  <style>
+    :root{
+      --bg:#fff9f0;
+      --accent:#ff7a18;
+      --muted:#6b6b6b;
+      --card:#ffffff;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+    body{
+      background:linear-gradient(180deg,var(--bg),#fff7f2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      box-sizing:border-box;
+    }
+    .viewer{
+      width:900px;
+      max-width:100%;
+      height:560px;
+      max-height:85vh;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(17,24,39,0.12);
+      overflow:hidden;
+      position:relative;
+      display:grid;
+      grid-template-columns:1fr;
+    }
+    .slide{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      box-sizing:border-box;
+      position:absolute;
+      top:0;left:0;
+      transition:transform .5s cubic-bezier(.2,.9,.2,1),opacity .3s;
+    }
+    .slide.hidden{
+      pointer-events:none;
+      opacity:0;
+    }
+    .slide-1{
+      background:linear-gradient(135deg, #fff4eb, #fff9f5);
+      transform:translateX(0%);
+    }
+    .slide-2{
+      background:linear-gradient(135deg, #fffefb, #f7fcff);
+      transform:translateX(100%);
+    }
+    .slide.show.slide-1{ transform:translateX(0%); opacity:1; }
+    .slide.show.slide-2{ transform:translateX(0%); opacity:1; }
+    .slide.hide-left{ transform:translateX(-100%); opacity:0; }
+    .slide.hide-right{ transform:translateX(100%); opacity:0; }
+
+    /* Content */
+    .title-card{
+      max-width:820px;
+      text-align:left;
+    }
+    h1{
+      margin:0 0 12px 0;
+      font-size:36px;
+      color:#222;
+      letter-spacing:0.5px;
+    }
+    .subtitle{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      font-size:16px;
+    }
+    .description{
+      color:#333;
+      line-height:1.5;
+      font-size:16px;
+      background:rgba(255,255,255,0.6);
+      padding:18px;
+      border-radius:8px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .controls{
+      position:absolute;
+      bottom:18px;
+      left:18px;
+      display:flex;
+      gap:8px;
+    }
+    .btn{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow:0 4px 12px rgba(255,122,24,0.18);
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:2px solid rgba(255,122,24,0.12);
+      box-shadow:none;
+      font-weight:700;
+    }
+    /* Video area */
+    .video-wrap{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      flex-direction:column;
+      padding:28px;
+      box-sizing:border-box;
+    }
+    .video-container{
+      width:100%;
+      max-width:820px;
+      height:420px;
+      background:#000;
+      border-radius:10px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .video-container iframe, .video-container video{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+    .video-note{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .link-input{
+      width:100%;
+      max-width:820px;
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+    }
+    .link-input input{
+      flex:1;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6e6e6;
+      font-size:14px;
+    }
+    .link-input button{
+      padding:10px 12px;
+      border-radius:8px;
+      border:none;
+      background:var(--accent);
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    /* Responsive */
+    @media (max-width:640px){
+      h1{font-size:26px}
+      .video-container{height:220px}
+    }
+    .external-link {
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      text-decoration:none;
+      background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6));
+      font-weight:700;
+      font-size:16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewer" role="region" aria-label="jealescous pancakes tutorial slideshow">
+    <!-- Slide 1 -->
+    <section id="slide1" class="slide slide-1 show" aria-hidden="false">
+      <div class="title-card">
+        <h1>Jealescous</h1>
+        <p class="subtitle">A friendly pancakes tutorial — learn to make fluffy, golden pancakes step by step.</p>
+        <div class="description">
+          Welcome to jealescous! This short tutorial covers ingredients, batter technique, cooking tips, and serving ideas so you get perfect pancakes every time. Use the Next button to watch the video presentation.
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section id="slide2" class="slide slide-2 hidden" aria-hidden="true">
+      <div class="video-wrap">
+        <div class="video-container" id="videoContainer">
+          <!-- TikTok embed will be injected here -->
+        </div>
+
+        <div class="video-note">Embedded TikTok. If embedding is restricted in your browser, use the Open on TikTok link below.</div>
+
+        <div class="link-input" aria-hidden="false">
+          <input id="videoLink" type="url" placeholder="Paste a different video link here (YouTube, Vimeo, MP4, or TikTok)" />
+          <button id="loadBtn">Load</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls" role="toolbar" aria-label="Slide controls">
+      <button id="prevBtn" class="btn secondary" title="Previous">Previous</button>
+      <button id="nextBtn" class="btn" title="Next">Next</button>
+    </div>
+  </div>
+
+  <script>
+    // Slide logic
+    const slides = [
+      document.getElementById('slide1'),
+      document.getElementById('slide2')
+    ];
+    let current = 0;
+    const updateSlides = () => {
+      slides.forEach((s, i) => {
+        if (i === current) {
+          s.classList.add('show');
+          s.classList.remove('hidden','hide-left','hide-right');
+          s.setAttribute('aria-hidden','false');
+        } else {
+          s.classList.remove('show');
+          s.classList.add('hidden');
+          s.setAttribute('aria-hidden','true');
+          if (i < current) {
+            s.classList.add('hide-left');
+            s.classList.remove('hide-right');
+          } else {
+            s.classList.add('hide-right');
+            s.classList.remove('hide-left');
+          }
+        }
+      });
+      document.getElementById('prevBtn').disabled = (current === 0);
+      document.getElementById('nextBtn').textContent = (current === slides.length -1) ? 'Last' : 'Next';
+      document.getElementById('prevBtn').style.opacity = (current===0)?0.6:1;
+    };
+    document.getElementById('prevBtn').addEventListener('click', () => { if (current > 0) current--; updateSlides(); });
+    document.getElementById('nextBtn').addEventListener('click', () => { if (current < slides.length - 1) current++; updateSlides(); });
+
+    // Create embed for various providers including TikTok
+    function createEmbed(url){
+      if (!url) return null;
+      // TikTok short link or full
+      const tiktokMatch = url.match(/tiktok\.com\/t\/[A-Za-z0-9_-]+|tiktok\.com\/@[^\/]+\/video\/(\d+)|vt\.tiktok\.com\/[A-Za-z0-9_-]+/);
+      if (tiktokMatch) {
+        // Use official TikTok embed block
+        const block = document.createElement('div');
+        block.innerHTML = '<blockquote class="tiktok-embed" cite="' + url + '" data-video-id="" style="max-width:100%;min-width:300px;" ><section></section></blockquote>';
+        // Add a fallback link overlay so user can open TikTok if embed is blocked
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'external-link';
+        a.textContent = 'Open on TikTok';
+        block.appendChild(a);
+        // Load TikTok embed script
+        const scriptId = 'tt-embed-script';
+        if (!document.getElementById(scriptId)) {
+          const s = document.createElement('script');
+          s.id = scriptId;
+          s.src = 'https://www.tiktok.com/embed.js';
+          s.async = true;
+          document.body.appendChild(s);
+        } else {
+          // if script already present, try to initialize
+          if (window.tiktokEmbedRender) {
+            try { window.tiktokEmbedRender(); } catch(e){ /* ignore */ }
+          }
+        }
+        return block;
+      }
+
+      // YouTube
+      const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_\-]+)/);
+      if (ytMatch) {
+        const id = ytMatch[1];
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?rel=0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        return iframe;
+      }
+      // Vimeo
+      const vMatch = url.match(/vimeo\.com\/(\d+)/);
+      if (vMatch){
+        const id = vMatch[1];
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://player.vimeo.com/video/' + id;
+        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+        iframe.allowFullscreen = true;
+        return iframe;
+      }
+      // Direct MP4
+      const mp4Match = url.match(/\.(mp4)(\?.*)?$/i);
+      if (mp4Match){
+        const video = document.createElement('video');
+        video.src = url;
+        video.controls = true;
+        video.playsInline = true;
+        return video;
+      }
+      return null;
+    }
+
+    // Load initial TikTok URL provided by user
+    const initialURL = 'https://vt.tiktok.com/ZSbCadt9u/';
+    function loadURLToContainer(url){
+      const container = document.getElementById('videoContainer');
+      container.innerHTML = '';
+      if (!url) {
+        container.innerHTML = '<div style="color:#fff;padding:12px;text-align:center;">No video link provided.</div>';
+        return;
+      }
+      const embed = createEmbed(url);
+      if (embed) {
+        container.appendChild(embed);
+        // switch to slide 2
+        current = 1;
+        updateSlides();
+      } else {
+        container.innerHTML = '<div style="color:#fff;padding:12px;text-align:center;">Could not recognise the video link. Try a different link.</div>';
+      }
+    }
+
+    document.getElementById('loadBtn').addEventListener('click', () => {
+      const url = document.getElementById('videoLink').value.trim();
+      loadURLToContainer(url);
+    });
+
+    // Put the initial URL into the input and load the embed
+    (function init(){
+      document.getElementById('videoLink').value = initialURL;
+      loadURLToContainer(initialURL);
+      updateSlides();
+    })();
+  </script>
+</body>
+</html>
